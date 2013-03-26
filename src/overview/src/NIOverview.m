@@ -16,7 +16,6 @@
 
 #import "NIOverview.h"
 
-#if defined(DEBUG) || defined(NI_DEBUG)
 
 #import "NIDeviceInfo.h"
 #import "NIOverviewView.h"
@@ -78,7 +77,7 @@ void NIOverviewLogMethod(const char* message, unsigned length, BOOL withSyslogBa
 
   // Don't autorelease here in an attempt to minimize autorelease thrashing in tight
   // loops.
-  
+
   NSString* formattedLogMessage = [[NSString alloc] initWithCString: message
                                                            encoding: NSUTF8StringEncoding];
 
@@ -95,7 +94,6 @@ void NIOverviewLogMethod(const char* message, unsigned length, BOOL withSyslogBa
   fprintf(stderr, "%s", [formattedLogMessage UTF8String]);
 }
 
-#endif
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -108,7 +106,6 @@ void NIOverviewLogMethod(const char* message, unsigned length, BOOL withSyslogBa
 #pragma mark -
 #pragma mark Device Orientation Changes
 
-#if defined(DEBUG) || defined(NI_DEBUG)
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 + (void)didChangeOrientation {
@@ -173,7 +170,7 @@ void NIOverviewLogMethod(const char* message, unsigned length, BOOL withSyslogBa
   // Get ready to fade the overview back in.
   sOverviewView.hidden = NO;
   sOverviewView.alpha = 0;
-  
+
   [sOverviewView flashScrollIndicators];
 
   // Fade!
@@ -191,7 +188,7 @@ void NIOverviewLogMethod(const char* message, unsigned length, BOOL withSyslogBa
 }
 
 
-#endif
+
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -202,7 +199,7 @@ void NIOverviewLogMethod(const char* message, unsigned length, BOOL withSyslogBa
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 + (void)applicationDidFinishLaunching {
-#if defined(DEBUG) || defined(NI_DEBUG)
+
   if (!sOverviewIsAwake) {
     sOverviewIsAwake = YES;
 
@@ -226,13 +223,13 @@ void NIOverviewLogMethod(const char* message, unsigned length, BOOL withSyslogBa
                                                object: nil];
 
   }
-#endif
+
 }
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 + (void)addOverviewToWindow:(UIWindow *)window {
-#if defined(DEBUG) || defined(NI_DEBUG)
+
   if (nil != sOverviewView) {
     // Remove the old overview in case this gets called multiple times (not sure why you would
     // though).
@@ -254,35 +251,26 @@ void NIOverviewLogMethod(const char* message, unsigned length, BOOL withSyslogBa
   sOverviewView.hidden = YES;
 
   [window addSubview:sOverviewView];
-  
+
   NSLog(@"The overview has been added to a window.");
-#endif
+
 }
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 + (NIOverviewLogger *)logger {
-#if defined(DEBUG) || defined(NI_DEBUG)
   return [NIOverviewLogger sharedLogger];
-#else
-  return nil;
-#endif
 }
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 + (CGFloat)height {
-#if defined(DEBUG) || defined(NI_DEBUG)
   return sOverviewHeight;
-#else
-  return 0;
-#endif
 }
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 + (CGRect)frame {
-#if defined(DEBUG) || defined(NI_DEBUG)
   UIInterfaceOrientation orient = NIInterfaceOrientation();
   CGFloat overviewWidth;
   CGRect frame;
@@ -337,20 +325,12 @@ void NIOverviewLogMethod(const char* message, unsigned length, BOOL withSyslogBa
     }
   }
   return frame;
-
-#else
-  return CGRectZero;
-#endif
 }
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 + (UIView *)view {
-#if defined(DEBUG) || defined(NI_DEBUG)
   return sOverviewView;
-#else
-  return nil;
-#endif
 }
 
 
